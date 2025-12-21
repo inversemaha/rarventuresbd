@@ -5,15 +5,15 @@ import { Link } from "react-router-dom";
 const categories = [
   {
     icon: Home,
-    title: "Residential",
-    description: "Luxury apartments and homes",
-    link: "/projects/residential",
+    title: "Interior",
+    description: "Luxury interior design projects",
+    link: "/projects/interior",
   },
   {
     icon: Building2,
-    title: "Commercial",
-    description: "Premium business spaces",
-    link: "/projects/commercial",
+    title: "Architecture",
+    description: "Modern architectural projects",
+    link: "/projects/architecture",
   },
   {
     icon: Handshake,
@@ -25,7 +25,7 @@ const categories = [
 
 export const CategoryLinks = () => {
   return (
-    <div className="flex flex-wrap justify-center gap-4 mt-8">
+    <div className="flex flex-wrap justify-center gap-4">
       {categories.map((category, index) => (
         <motion.div
           key={category.title}

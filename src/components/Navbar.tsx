@@ -4,20 +4,29 @@ import { Link } from "react-router-dom";
 import { Menu, X, ChevronDown, Phone, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+// Smooth scroll function
+const scrollToSection = (sectionId: string) => {
+  const element = document.getElementById(sectionId);
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth' });
+  }
+};
+
 const navItems = [
-  { label: "Home", href: "/" },
+  { label: "Home", href: "/", type: "link" },
   { 
     label: "Projects", 
     href: "/properties",
+    type: "dropdown",
     children: [
       { label: "All Properties", href: "/properties" },
       { label: "Interior", href: "/projects/interior" },
       { label: "Architecture", href: "/projects/architecture" },
+      { label: "Landowner", href: "/landowner" },
     ]
   },
-  { label: "Landowner", href: "/landowner" },
-  { label: "About", href: "/#about" },
-  { label: "Contact", href: "/#contact" },
+  { label: "About", href: "about", type: "scroll" },
+  { label: "Contact", href: "contact", type: "scroll" },
 ];
 
 export const Navbar = () => {
@@ -52,13 +61,22 @@ export const Navbar = () => {
                 onMouseEnter={() => item.children && setActiveDropdown(item.label)}
                 onMouseLeave={() => setActiveDropdown(null)}
               >
-                <Link 
-                  to={item.href}
-                  className="flex items-center gap-1 text-foreground/80 hover:text-primary transition-colors duration-300 text-sm font-medium tracking-wide"
-                >
-                  {item.label}
-                  {item.children && <ChevronDown className="w-4 h-4" />}
-                </Link>
+                {item.type === 'scroll' ? (
+                  <button
+                    onClick={() => scrollToSection(item.href)}
+                    className="flex items-center gap-1 text-foreground/80 hover:text-primary transition-colors duration-300 text-sm font-medium tracking-wide"
+                  >
+                    {item.label}
+                  </button>
+                ) : (
+                  <Link 
+                    to={item.href}
+                    className="flex items-center gap-1 text-foreground/80 hover:text-primary transition-colors duration-300 text-sm font-medium tracking-wide"
+                  >
+                    {item.label}
+                    {item.children && <ChevronDown className="w-4 h-4" />}
+                  </Link>
+                )}
                 
                 {/* Dropdown */}
                 <AnimatePresence>
@@ -96,9 +114,11 @@ export const Navbar = () => {
               <Phone className="w-4 h-4" />
               <span>+880 1234 567 890</span>
             </a>
-            <Button variant="gold">
-              Book a Visit
-            </Button>
+            <Link to="/book-visit">
+              <Button variant="gold">
+                Book a Visit
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -123,18 +143,33 @@ export const Navbar = () => {
           >
             <div className="container mx-auto px-6 py-6 space-y-4">
               {navItems.map((item) => (
-                <Link
-                  key={item.label}
-                  to={item.href}
-                  className="block text-foreground/80 hover:text-primary transition-colors py-2 text-lg"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.label}
-                </Link>
+                item.type === 'scroll' ? (
+                  <button
+                    key={item.label}
+                    onClick={() => {
+                      scrollToSection(item.href);
+                      setIsOpen(false);
+                    }}
+                    className="block text-foreground/80 hover:text-primary transition-colors py-2 text-lg w-full text-left"
+                  >
+                    {item.label}
+                  </button>
+                ) : (
+                  <Link
+                    key={item.label}
+                    to={item.href}
+                    className="block text-foreground/80 hover:text-primary transition-colors py-2 text-lg"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                )
               ))}
-              <Button variant="gold" className="w-full mt-4">
-                Book a Visit
-              </Button>
+              <Link to="/book-visit" onClick={() => setIsOpen(false)}>
+                <Button variant="gold" className="w-full mt-4">
+                  Book a Visit
+                </Button>
+              </Link>
             </div>
           </motion.div>
         )}

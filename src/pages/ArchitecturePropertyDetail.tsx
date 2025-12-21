@@ -37,220 +37,8 @@ import property1 from "@/assets/property-1.jpg";
 import property2 from "@/assets/property-2.jpg";
 import property3 from "@/assets/property-3.jpg";
 
-// Project data with full details
-const projectsData: Record<string, ProjectDetails> = {
-  "sunset-residences": {
-    id: "sunset-residences",
-    title: "EliteEstates Sunset Residences",
-    type: "Interior",
-    category: "Premium",
-    location: "Banani, Dhaka",
-    address: "Plot 15/A, Road 12, Block E, Banani, Dhaka-1213",
-    heroImage: slider2,
-    status: "Ready",
-    price: "৳2.5 Cr",
-    beds: 4,
-    baths: 3,
-    sqft: "2,400 sqft",
-    atAGlance: [
-      { icon: "address", label: "Address", value: "Plot 15/A, Road 12, Block E, Banani" },
-      { icon: "type", label: "Type", value: "Residential Apartment" },
-      { icon: "land", label: "Land Area", value: "8.25 Katha" },
-      { icon: "levels", label: "Levels", value: "12 Storied (B2+G+10)" },
-      { icon: "units", label: "Apartment Size", value: "2,200 - 2,800 sft" },
-      { icon: "totalUnits", label: "Units", value: "20 Apartments" },
-      { icon: "parking", label: "Parkings", value: "30" },
-      { icon: "elevator", label: "Elevator", value: "02" },
-      { icon: "staircase", label: "Staircase", value: "02 with Fire Door" },
-      { icon: "handover", label: "Handover", value: "December 2024" },
-      { icon: "consultant", label: "Design Consultant", value: "Archdynamic Ltd." },
-    ],
-    floorPlans: [
-      { name: "Ground Floor", status: "Completed" },
-      { name: "Level 01-03", status: "Completed" },
-      { name: "Level 04-06", status: "Completed" },
-      { name: "Level 07-09", status: "In Progress" },
-      { name: "Level 10", status: "Upcoming" },
-      { name: "Roof Plan", status: "Upcoming" },
-    ],
-    gallery: [slider1, slider2, slider3, slider4, slider5, property1, property2, property3],
-    mapLocation: { lat: 23.7937, lng: 90.4066 },
-  },
-  "garden-view": {
-    id: "garden-view",
-    title: "EliteEstates Garden View",
-    type: "Interior",
-    category: "Classic",
-    location: "Uttara, Dhaka",
-    address: "Plot 22, Sector 11, Uttara, Dhaka-1230",
-    heroImage: slider5,
-    status: "Ongoing",
-    price: "৳1.8 Cr",
-    beds: 3,
-    baths: 2,
-    sqft: "1,800 sqft",
-    atAGlance: [
-      { icon: "address", label: "Address", value: "Plot 22, Sector 11, Uttara" },
-      { icon: "type", label: "Type", value: "Residential Apartment" },
-      { icon: "land", label: "Land Area", value: "6.50 Katha" },
-      { icon: "levels", label: "Levels", value: "10 Storied (B1+G+9)" },
-      { icon: "units", label: "Apartment Size", value: "1,600 - 2,000 sft" },
-      { icon: "totalUnits", label: "Units", value: "18 Apartments" },
-      { icon: "parking", label: "Parkings", value: "20" },
-      { icon: "elevator", label: "Elevator", value: "02" },
-      { icon: "staircase", label: "Staircase", value: "02 with Fire Door" },
-      { icon: "handover", label: "Handover", value: "March 2026" },
-      { icon: "consultant", label: "Design Consultant", value: "Studio Design" },
-    ],
-    floorPlans: [
-      { name: "Basement", status: "Completed" },
-      { name: "Ground Floor", status: "Completed" },
-      { name: "Level 01-05", status: "In Progress" },
-      { name: "Level 06-09", status: "Upcoming" },
-      { name: "Roof Plan", status: "Upcoming" },
-    ],
-    gallery: [slider5, slider3, slider1, property1, property2],
-    mapLocation: { lat: 23.8759, lng: 90.3795 },
-  },
-  "lily-an-tower": {
-    id: "lily-an-tower",
-    title: "EliteEstates Lily-An Tower",
-    type: "Interior",
-    category: "Sapphire Series",
-    location: "Lalmatia, Dhaka",
-    address: "Plot 4/4, Satmasjid Road, Block D, Lalmatia, Dhaka",
-    heroImage: slider1,
-    status: "Upcoming",
-    price: "৳2.2 Cr",
-    beds: 3,
-    baths: 3,
-    sqft: "2,100 sqft",
-    atAGlance: [
-      { icon: "address", label: "Address", value: "Plot 4/4, Satmasjid Road, Block D, Lalmatia" },
-      { icon: "type", label: "Type", value: "Residential Building" },
-      { icon: "land", label: "Land Area", value: "9.50 Katha" },
-      { icon: "levels", label: "Levels", value: "14 Storied (B2+B1+G+13)" },
-      { icon: "units", label: "Apartment Size", value: "1,900 - 2,400 sft" },
-      { icon: "totalUnits", label: "Units", value: "28" },
-      { icon: "parking", label: "Parkings", value: "24" },
-      { icon: "elevator", label: "Elevator", value: "02" },
-      { icon: "staircase", label: "Staircase", value: "02 with Fire Door" },
-      { icon: "handover", label: "Handover", value: "August 2027" },
-      { icon: "consultant", label: "Design Consultant", value: "VOLUMEZERO Limited" },
-    ],
-    floorPlans: [
-      { name: "Project Start", status: "Completed" },
-      { name: "Basement 01", status: "Upcoming" },
-      { name: "Basement 02", status: "Upcoming" },
-      { name: "Ground Level", status: "Upcoming" },
-      { name: "Level 02", status: "Upcoming" },
-      { name: "Level 03-14", status: "Upcoming" },
-      { name: "Roof Plan", status: "Upcoming" },
-    ],
-    gallery: [slider1, slider2, slider4, slider5, property1, property3],
-    mapLocation: { lat: 23.7525, lng: 90.3709 },
-  },
-  "premium-heights": {
-    id: "premium-heights",
-    title: "EliteEstates Premium Heights",
-    type: "Interior",
-    category: "Luxury",
-    location: "Gulshan, Dhaka",
-    address: "Plot 45, Road 103, Gulshan-2, Dhaka-1212",
-    heroImage: property1,
-    status: "Ready",
-    price: "৳3.5 Cr",
-    beds: 4,
-    baths: 4,
-    sqft: "2,800 sqft",
-    atAGlance: [
-      { icon: "address", label: "Address", value: "Plot 45, Road 103, Gulshan-2" },
-      { icon: "type", label: "Type", value: "Luxury Apartment" },
-      { icon: "land", label: "Land Area", value: "12.00 Katha" },
-      { icon: "levels", label: "Levels", value: "15 Storied (B2+G+14)" },
-      { icon: "units", label: "Apartment Size", value: "2,500 - 3,200 sft" },
-      { icon: "totalUnits", label: "Units", value: "15 Apartments" },
-      { icon: "parking", label: "Parkings", value: "45" },
-      { icon: "elevator", label: "Elevator", value: "03" },
-      { icon: "staircase", label: "Staircase", value: "02 with Fire Door" },
-      { icon: "handover", label: "Handover", value: "Ready Now" },
-      { icon: "consultant", label: "Design Consultant", value: "Modern Architects" },
-    ],
-    floorPlans: [
-      { name: "All Floors", status: "Completed" },
-    ],
-    gallery: [property1, slider1, slider2, slider3, slider4],
-    mapLocation: { lat: 23.7925, lng: 90.4078 },
-  },
-  "mh-heights": {
-    id: "mh-heights",
-    title: "EliteEstates MH Heights",
-    type: "Interior",
-    category: "Classic",
-    location: "Mohammadpur, Dhaka",
-    address: "House 12, Road 5, Block C, Mohammadpur, Dhaka",
-    heroImage: property2,
-    status: "Ongoing",
-    price: "৳1.5 Cr",
-    beds: 3,
-    baths: 2,
-    sqft: "1,600 sqft",
-    atAGlance: [
-      { icon: "address", label: "Address", value: "House 12, Road 5, Block C, Mohammadpur" },
-      { icon: "type", label: "Type", value: "Residential Apartment" },
-      { icon: "land", label: "Land Area", value: "5.00 Katha" },
-      { icon: "levels", label: "Levels", value: "8 Storied (G+7)" },
-      { icon: "units", label: "Apartment Size", value: "1,400 - 1,800 sft" },
-      { icon: "totalUnits", label: "Units", value: "14 Apartments" },
-      { icon: "parking", label: "Parkings", value: "14" },
-      { icon: "elevator", label: "Elevator", value: "01" },
-      { icon: "staircase", label: "Staircase", value: "02 with Fire Door" },
-      { icon: "handover", label: "Handover", value: "June 2025" },
-      { icon: "consultant", label: "Design Consultant", value: "Urban Studio" },
-    ],
-    floorPlans: [
-      { name: "Ground Floor", status: "Completed" },
-      { name: "Level 01-04", status: "Completed" },
-      { name: "Level 05-07", status: "In Progress" },
-    ],
-    gallery: [property2, slider3, slider5, property1],
-    mapLocation: { lat: 23.7662, lng: 90.3587 },
-  },
-  "aziz-residences": {
-    id: "aziz-residences",
-    title: "EliteEstates Aziz Residences",
-    type: "Interior",
-    category: "Premium",
-    location: "Uttara, Dhaka",
-    address: "Plot 8, Sector 7, Uttara, Dhaka-1230",
-    heroImage: slider3,
-    status: "Upcoming",
-    price: "৳2.0 Cr",
-    beds: 3,
-    baths: 3,
-    sqft: "2,000 sqft",
-    atAGlance: [
-      { icon: "address", label: "Address", value: "Plot 8, Sector 7, Uttara" },
-      { icon: "type", label: "Type", value: "Residential Apartment" },
-      { icon: "land", label: "Land Area", value: "7.00 Katha" },
-      { icon: "levels", label: "Levels", value: "11 Storied (B1+G+10)" },
-      { icon: "units", label: "Apartment Size", value: "1,800 - 2,200 sft" },
-      { icon: "totalUnits", label: "Units", value: "22 Apartments" },
-      { icon: "parking", label: "Parkings", value: "25" },
-      { icon: "elevator", label: "Elevator", value: "02" },
-      { icon: "staircase", label: "Staircase", value: "02 with Fire Door" },
-      { icon: "handover", label: "Handover", value: "December 2027" },
-      { icon: "consultant", label: "Design Consultant", value: "Archdynamic Ltd." },
-    ],
-    floorPlans: [
-      { name: "Foundation", status: "Upcoming" },
-      { name: "Ground Floor", status: "Upcoming" },
-      { name: "All Levels", status: "Upcoming" },
-    ],
-    gallery: [slider3, slider1, slider5, property2],
-    mapLocation: { lat: 23.8759, lng: 90.3795 },
-  },
-  // Commercial Projects
+// Architecture projects data with full details
+const architectureProjectsData: Record<string, ProjectDetails> = {
   "corporate-tower": {
     id: "corporate-tower",
     title: "EliteEstates Corporate Tower",
@@ -266,7 +54,7 @@ const projectsData: Record<string, ProjectDetails> = {
     sqft: "5,000 sqft",
     atAGlance: [
       { icon: "address", label: "Address", value: "Plot 10, Commercial Area, Motijheel" },
-      { icon: "type", label: "Type", value: "Commercial Building" },
+      { icon: "type", label: "Type", value: "Architecture Building" },
       { icon: "land", label: "Land Area", value: "15.00 Katha" },
       { icon: "levels", label: "Levels", value: "20 Storied (B3+G+19)" },
       { icon: "units", label: "Commercial Unit Size", value: "1,000 - 8,000 sft" },
@@ -275,12 +63,12 @@ const projectsData: Record<string, ProjectDetails> = {
       { icon: "elevator", label: "Elevator", value: "06" },
       { icon: "staircase", label: "Staircase", value: "04 with Fire Door" },
       { icon: "handover", label: "Handover", value: "Ready Now" },
-      { icon: "consultant", label: "Design Consultant", value: "Corporate Architects" },
+      { icon: "consultant", label: "Architect", value: "Corporate Architects" },
     ],
     floorPlans: [
       { name: "All Floors", status: "Completed" },
     ],
-    gallery: [slider4, slider1, slider2, property3],
+    gallery: [slider4, slider1, slider2, property3, property1, slider5],
     mapLocation: { lat: 23.7286, lng: 90.4185 },
   },
   "metro-plaza": {
@@ -298,7 +86,7 @@ const projectsData: Record<string, ProjectDetails> = {
     sqft: "3,200 sqft",
     atAGlance: [
       { icon: "address", label: "Address", value: "House 25, Road 27, Dhanmondi" },
-      { icon: "type", label: "Type", value: "Commercial Complex" },
+      { icon: "type", label: "Type", value: "Architecture Complex" },
       { icon: "land", label: "Land Area", value: "10.00 Katha" },
       { icon: "levels", label: "Levels", value: "12 Storied (B2+G+11)" },
       { icon: "units", label: "Commercial Unit Size", value: "800 - 4,000 sft" },
@@ -307,7 +95,7 @@ const projectsData: Record<string, ProjectDetails> = {
       { icon: "elevator", label: "Elevator", value: "03" },
       { icon: "staircase", label: "Staircase", value: "02 with Fire Door" },
       { icon: "handover", label: "Handover", value: "September 2025" },
-      { icon: "consultant", label: "Design Consultant", value: "Metro Design Studio" },
+      { icon: "consultant", label: "Architect", value: "Metro Design Studio" },
     ],
     floorPlans: [
       { name: "Basement 01-02", status: "Completed" },
@@ -315,7 +103,7 @@ const projectsData: Record<string, ProjectDetails> = {
       { name: "Level 01-06", status: "In Progress" },
       { name: "Level 07-11", status: "Upcoming" },
     ],
-    gallery: [slider3, slider4, property3, slider1],
+    gallery: [slider3, slider4, property3, slider1, property2, slider5],
     mapLocation: { lat: 23.7461, lng: 90.3742 },
   },
   "business-hub": {
@@ -333,7 +121,7 @@ const projectsData: Record<string, ProjectDetails> = {
     sqft: "8,000 sqft",
     atAGlance: [
       { icon: "address", label: "Address", value: "Plot 78, Gulshan Avenue, Gulshan-1" },
-      { icon: "type", label: "Type", value: "Premium Commercial Building" },
+      { icon: "type", label: "Type", value: "Premium Architecture Building" },
       { icon: "land", label: "Land Area", value: "20.00 Katha" },
       { icon: "levels", label: "Levels", value: "25 Storied (B4+G+24)" },
       { icon: "units", label: "Commercial Unit Size", value: "2,000 - 10,000 sft" },
@@ -342,14 +130,14 @@ const projectsData: Record<string, ProjectDetails> = {
       { icon: "elevator", label: "Elevator", value: "08" },
       { icon: "staircase", label: "Staircase", value: "04 with Fire Door" },
       { icon: "handover", label: "Handover", value: "2028" },
-      { icon: "consultant", label: "Design Consultant", value: "Global Architects" },
+      { icon: "consultant", label: "Architect", value: "Global Architects" },
     ],
     floorPlans: [
       { name: "Project Announcement", status: "Completed" },
       { name: "Foundation", status: "Upcoming" },
       { name: "All Floors", status: "Upcoming" },
     ],
-    gallery: [slider1, slider4, slider2, property3],
+    gallery: [slider1, slider4, slider2, property3, property1, property2],
     mapLocation: { lat: 23.7808, lng: 90.4165 },
   },
   "trade-center": {
@@ -367,7 +155,7 @@ const projectsData: Record<string, ProjectDetails> = {
     sqft: "4,500 sqft",
     atAGlance: [
       { icon: "address", label: "Address", value: "Plot 55, Road 11, Block F, Banani" },
-      { icon: "type", label: "Type", value: "Trade Center" },
+      { icon: "type", label: "Type", value: "Trade Architecture" },
       { icon: "land", label: "Land Area", value: "8.50 Katha" },
       { icon: "levels", label: "Levels", value: "10 Storied (B1+G+9)" },
       { icon: "units", label: "Commercial Unit Size", value: "500 - 5,000 sft" },
@@ -376,13 +164,80 @@ const projectsData: Record<string, ProjectDetails> = {
       { icon: "elevator", label: "Elevator", value: "02" },
       { icon: "staircase", label: "Staircase", value: "02 with Fire Door" },
       { icon: "handover", label: "Handover", value: "Ready Now" },
-      { icon: "consultant", label: "Design Consultant", value: "Trade Design Ltd." },
+      { icon: "consultant", label: "Architect", value: "Trade Design Ltd." },
     ],
     floorPlans: [
       { name: "All Floors", status: "Completed" },
     ],
-    gallery: [property3, slider4, slider1, slider2],
+    gallery: [property3, slider4, slider1, slider2, property1, slider5],
     mapLocation: { lat: 23.7937, lng: 90.4066 },
+  },
+  "innovation-center": {
+    id: "innovation-center",
+    title: "EliteEstates Innovation Center",
+    type: "Architecture",
+    category: "Innovation Hub",
+    location: "Tejgaon, Dhaka",
+    address: "Plot 45, Industrial Area, Tejgaon, Dhaka-1208",
+    heroImage: slider2,
+    status: "Upcoming",
+    price: "৳6.5 Cr",
+    beds: 0,
+    baths: 8,
+    sqft: "12,000 sqft",
+    atAGlance: [
+      { icon: "address", label: "Address", value: "Plot 45, Industrial Area, Tejgaon" },
+      { icon: "type", label: "Type", value: "Innovation Architecture" },
+      { icon: "land", label: "Land Area", value: "25.00 Katha" },
+      { icon: "levels", label: "Levels", value: "15 Storied (B2+G+14)" },
+      { icon: "units", label: "Commercial Unit Size", value: "3,000 - 15,000 sft" },
+      { icon: "totalUnits", label: "Units", value: "30 Units" },
+      { icon: "parking", label: "Parkings", value: "100" },
+      { icon: "elevator", label: "Elevator", value: "04" },
+      { icon: "staircase", label: "Staircase", value: "03 with Fire Door" },
+      { icon: "handover", label: "Handover", value: "2026" },
+      { icon: "consultant", label: "Architect", value: "Innovation Architects" },
+    ],
+    floorPlans: [
+      { name: "Project Planning", status: "Completed" },
+      { name: "Foundation Work", status: "Upcoming" },
+      { name: "Structure", status: "Upcoming" },
+      { name: "Finishing", status: "Upcoming" },
+    ],
+    gallery: [slider2, property1, slider4, property3, slider1, slider5],
+    mapLocation: { lat: 23.7645, lng: 90.3876 },
+  },
+  "commercial-plaza": {
+    id: "commercial-plaza",
+    title: "EliteEstates Commercial Plaza",
+    type: "Architecture",
+    category: "Commercial Complex",
+    location: "New Market, Dhaka",
+    address: "Plot 88, New Market Area, Dhaka-1205",
+    heroImage: slider5,
+    status: "Ready",
+    price: "৳3.8 Cr",
+    beds: 0,
+    baths: 5,
+    sqft: "7,500 sqft",
+    atAGlance: [
+      { icon: "address", label: "Address", value: "Plot 88, New Market Area" },
+      { icon: "type", label: "Type", value: "Commercial Architecture" },
+      { icon: "land", label: "Land Area", value: "12.00 Katha" },
+      { icon: "levels", label: "Levels", value: "8 Storied (B1+G+7)" },
+      { icon: "units", label: "Commercial Unit Size", value: "1,200 - 6,000 sft" },
+      { icon: "totalUnits", label: "Units", value: "24 Units" },
+      { icon: "parking", label: "Parkings", value: "35" },
+      { icon: "elevator", label: "Elevator", value: "02" },
+      { icon: "staircase", label: "Staircase", value: "02 with Fire Door" },
+      { icon: "handover", label: "Handover", value: "Ready Now" },
+      { icon: "consultant", label: "Architect", value: "Commercial Design Ltd." },
+    ],
+    floorPlans: [
+      { name: "All Floors", status: "Completed" },
+    ],
+    gallery: [slider5, property2, slider3, property1, slider4, slider1],
+    mapLocation: { lat: 23.7270, lng: 90.3968 },
   },
 };
 
@@ -419,7 +274,7 @@ const iconMap: Record<string, React.ElementType> = {
   consultant: PenTool,
 };
 
-const PropertyDetail = () => {
+const ArchitecturePropertyDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const [activeTab, setActiveTab] = useState("at-a-glance");
   const [isSticky, setIsSticky] = useState(false);
@@ -427,7 +282,7 @@ const PropertyDetail = () => {
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
 
-  const project = slug ? projectsData[slug] : null;
+  const project = slug ? architectureProjectsData[slug] : null;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -441,11 +296,11 @@ const PropertyDetail = () => {
     return (
       <main className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-4xl font-serif font-bold text-foreground mb-4">Project Not Found</h1>
-          <Link to="/projects/interior">
+          <h1 className="text-4xl font-serif font-bold text-foreground mb-4">Architecture Project Not Found</h1>
+          <Link to="/projects/architecture">
             <Button variant="gold">
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Projects
+              Back to Architecture Projects
             </Button>
           </Link>
         </div>
@@ -476,18 +331,18 @@ const PropertyDetail = () => {
     }
   };
 
-  // Get related projects (same type, excluding current)
-  const relatedProjects = Object.values(projectsData)
-    .filter(p => p.type === project.type && p.id !== project.id)
+  // Get related architecture projects (excluding current)
+  const relatedProjects = Object.values(architectureProjectsData)
+    .filter(p => p.id !== project.id)
     .slice(0, 3);
 
   return (
     <>
       <Helmet>
-        <title>{project.title} - EliteEstates</title>
+        <title>{project.title} - Architecture - EliteEstates</title>
         <meta 
           name="description" 
-          content={`${project.title} - ${project.type} property in ${project.location}. ${project.sqft}, ${project.beds} beds, ${project.baths} baths. ${project.status} project.`}
+          content={`${project.title} - Architecture project in ${project.location}. ${project.sqft}, commercial space with ${project.baths} facilities. ${project.status} project.`}
         />
       </Helmet>
       
@@ -652,10 +507,10 @@ const PropertyDetail = () => {
               className="text-center mb-12"
             >
               <h2 className="text-3xl md:text-4xl font-serif font-bold text-white mb-4">
-                Project <span className="text-gradient">Progress</span>
+                Architecture <span className="text-gradient">Progress</span>
               </h2>
               <p className="text-muted-foreground max-w-2xl mx-auto">
-                Track the construction milestones and progress of {project.title}
+                Track the architectural development milestones and progress of {project.title}
               </p>
             </motion.div>
 
@@ -720,7 +575,7 @@ const PropertyDetail = () => {
               className="text-center mb-12"
             >
               <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">
-                Project <span className="text-gradient">Gallery</span>
+                Architecture <span className="text-gradient">Gallery</span>
               </h2>
             </motion.div>
 
@@ -846,7 +701,7 @@ const PropertyDetail = () => {
                   Connect & <span className="text-gradient">Explore</span>
                 </h2>
                 <p className="text-muted-foreground">
-                  Interested in {project.title}? Get in touch with us for more details.
+                  Interested in {project.title}? Get in touch with us for more architectural details.
                 </p>
               </motion.div>
 
@@ -871,19 +726,19 @@ const PropertyDetail = () => {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-2">Subject</label>
-                    <Input placeholder="Inquiry about this project" defaultValue={project.title} className="bg-background" />
+                    <Input placeholder="Architecture inquiry" defaultValue={project.title} className="bg-background" />
                   </div>
                 </div>
                 <div className="mb-6">
                   <label className="block text-sm font-medium text-foreground mb-2">Message</label>
                   <Textarea 
-                    placeholder="Your message..." 
+                    placeholder="Your architectural requirements..." 
                     className="bg-background min-h-[120px]"
                   />
                 </div>
                 <Button variant="gold" size="lg" className="w-full">
                   <Send className="w-4 h-4 mr-2" />
-                  Submit Inquiry
+                  Submit Architecture Inquiry
                 </Button>
               </motion.form>
             </div>
@@ -901,10 +756,10 @@ const PropertyDetail = () => {
                   viewport={{ once: true }}
                   className="text-3xl md:text-4xl font-serif font-bold text-white"
                 >
-                  Related <span className="text-gradient">Projects</span>
+                  Related <span className="text-gradient">Architecture Projects</span>
                 </motion.h2>
-                <Link to={project.type === "Architecture" ? "/projects/architecture" : "/projects/interior"}>
-                  <Button variant="outline">View All</Button>
+                <Link to="/projects/architecture">
+                  <Button variant="outline">View All Architecture</Button>
                 </Link>
               </div>
 
@@ -917,7 +772,7 @@ const PropertyDetail = () => {
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.1 }}
                   >
-                    <Link to={`/project/${relatedProject.id}`}>
+                    <Link to={`/architecture/${relatedProject.id}`}>
                       <PropertyCard
                         image={relatedProject.heroImage}
                         title={relatedProject.title}
@@ -942,4 +797,4 @@ const PropertyDetail = () => {
   );
 };
 
-export default PropertyDetail;
+export default ArchitecturePropertyDetail;

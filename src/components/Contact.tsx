@@ -3,6 +3,9 @@ import { MapPin, Phone, Mail, Clock, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useRef, useState } from "react";
+import emailjs from "@emailjs/browser";
+import { toast } from "@/components/ui/sonner";
 
 const contactInfo = [
   {
@@ -28,6 +31,28 @@ const contactInfo = [
 ];
 
 export const Contact = () => {
+  const [loading, setLoading] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formRef.current) return;
+    setLoading(true);
+    try {
+      await emailjs.sendForm(
+        "YOUR_SERVICE_ID", // <-- Replace with your EmailJS service ID
+        "YOUR_TEMPLATE_ID", // <-- Replace with your EmailJS template ID
+        formRef.current,
+        "YOUR_PUBLIC_KEY" // <-- Replace with your EmailJS public key
+      );
+      toast.success("Message sent! We'll get back to you soon.");
+      formRef.current.reset();
+    } catch (error) {
+      toast.error("Failed to send message. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <section id="contact" className="py-24 bg-background relative overflow-hidden">
       {/* Background Accent */}
@@ -92,19 +117,19 @@ export const Contact = () => {
               Fill out the form and we'll get back to you within 24 hours.
             </p>
 
-            <form className="space-y-6">
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-2">
                     Your Name
                   </label>
-                  <Input placeholder="John Doe" />
+                  <Input name="user_name" placeholder="John Doe" required />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-2">
                     Phone Number
                   </label>
-                  <Input placeholder="+880 1XXX XXX XXX" />
+                  <Input name="user_phone" placeholder="+880 1XXX XXX XXX" required />
                 </div>
               </div>
 
@@ -112,14 +137,14 @@ export const Contact = () => {
                 <label className="block text-sm font-medium text-foreground mb-2">
                   Email Address
                 </label>
-                <Input type="email" placeholder="john@example.com" />
+                <Input name="user_email" type="email" placeholder="john@example.com" required />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-foreground mb-2">
                   Interested In
                 </label>
-                <Input placeholder="e.g., Interior, Architecture, Investment" />
+                <Input name="interest" placeholder="e.g., Interior, Architecture, Investment" required />
               </div>
 
               <div>
@@ -127,13 +152,21 @@ export const Contact = () => {
                   Your Message
                 </label>
                 <Textarea 
+                  name="message"
                   placeholder="Tell us about your requirements..." 
                   rows={4}
+                  required
                 />
               </div>
 
-              <Button variant="gold" size="lg" className="w-full group">
-                Send Message
+              <Button 
+                variant="gold" 
+                size="lg" 
+                className="w-full group"
+                type="submit"
+                disabled={loading}
+              >
+                {loading ? "Sending..." : "Send Message"}
                 <Send className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
             </form>

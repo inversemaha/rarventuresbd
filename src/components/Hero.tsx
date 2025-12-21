@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, MapPin, Building2, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CategoryLinks } from "@/components/CategoryLinks";
+import { Link } from "react-router-dom";
 import heroImage from "@/assets/hero-building.jpg";
 
 const stats = [
@@ -65,13 +66,12 @@ export const Hero = () => {
             transition={{ duration: 0.8, delay: 0.5 }}
             className="flex flex-wrap gap-4 mb-8"
           >
-            <Button variant="gold" size="lg" className="group">
-              Explore Projects
-              <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-            </Button>
-            <Button variant="outline" size="lg">
-              View Showcase
-            </Button>
+            <Link to="/properties">
+              <Button variant="gold" size="lg" className="group">
+                Explore Projects
+                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </Link>
           </motion.div>
 
           {/* Category Links */}

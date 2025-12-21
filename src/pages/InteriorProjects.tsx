@@ -1,82 +1,97 @@
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { Send, Calendar } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PropertyCard } from "@/components/PropertyCard";
+import { Button } from "@/components/ui/button";
 
 import slider1 from "@/assets/slider-1.jpg";
 import slider2 from "@/assets/slider-2.jpg";
-import slider3 from "@/assets/slider-3.jpg";
 import slider5 from "@/assets/slider-5.jpg";
 import property1 from "@/assets/property-1.jpg";
 import property2 from "@/assets/property-2.jpg";
+import property3 from "@/assets/property-3.jpg";
 
 const interiorProjects = [
   {
     id: 1,
-    title: "EliteEstates Sunset Residences",
-    location: "Banani, Dhaka",
+    slug: "luxury-penthouse",
+    title: "EliteEstates Luxury Penthouse",
+    location: "Gulshan, Dhaka",
     price: "৳2.5 Cr",
     beds: 4,
     baths: 3,
-    sqft: "2,400 sqft",
-    image: slider2,
+    sqft: "2,800 sqft",
+    image: slider1,
     status: "Ready" as const,
+    priceDisplay: "৳2.5 Cr",
   },
   {
     id: 2,
-    title: "EliteEstates Garden View",
-    location: "Uttara, Dhaka",
+    slug: "modern-apartment",
+    title: "EliteEstates Modern Apartment",
+    location: "Dhanmondi, Dhaka",
     price: "৳1.8 Cr",
     beds: 3,
     baths: 2,
-    sqft: "1,800 sqft",
-    image: slider5,
+    sqft: "2,200 sqft",
+    image: slider2,
     status: "Ongoing" as const,
+    priceDisplay: "৳1.8 Cr",
   },
   {
     id: 3,
-    title: "EliteEstates Lily-An Tower",
-    location: "Lalmatia, Dhaka",
-    price: "৳2.2 Cr",
-    beds: 3,
-    baths: 3,
-    sqft: "2,100 sqft",
-    image: slider1,
+    slug: "family-villa",
+    title: "EliteEstates Family Villa",
+    location: "Uttara, Dhaka",
+    price: "৳3.2 Cr",
+    beds: 5,
+    baths: 4,
+    sqft: "3,500 sqft",
+    image: slider5,
     status: "Upcoming" as const,
+    priceDisplay: "৳3.2 Cr",
   },
   {
     id: 4,
-    title: "EliteEstates Premium Heights",
-    location: "Gulshan, Dhaka",
-    price: "৳3.5 Cr",
-    beds: 4,
-    baths: 4,
-    sqft: "2,800 sqft",
-    image: property1,
-    status: "Ready" as const,
-  },
-  {
-    id: 5,
-    title: "EliteEstates MH Heights",
-    location: "Mohammadpur, Dhaka",
+    slug: "cozy-duplex",
+    title: "EliteEstates Cozy Duplex",
+    location: "Banani, Dhaka",
     price: "৳1.5 Cr",
     beds: 3,
     baths: 2,
-    sqft: "1,600 sqft",
+    sqft: "2,000 sqft",
+    image: property1,
+    status: "Ready" as const,
+    priceDisplay: "৳1.5 Cr",
+  },
+  {
+    id: 5,
+    slug: "executive-suite",
+    title: "EliteEstates Executive Suite",
+    location: "Wari, Dhaka",
+    price: "৳2.1 Cr",
+    beds: 3,
+    baths: 3,
+    sqft: "2,500 sqft",
     image: property2,
-    status: "Ongoing" as const,
+    status: "Ready" as const,
+    priceDisplay: "৳2.1 Cr",
   },
   {
     id: 6,
-    title: "EliteEstates Aziz Residences",
-    location: "Uttara, Dhaka",
-    price: "৳2.0 Cr",
-    beds: 3,
-    baths: 3,
-    sqft: "2,000 sqft",
-    image: slider3,
-    status: "Upcoming" as const,
+    slug: "garden-apartment",
+    title: "EliteEstates Garden Apartment",
+    location: "Mirpur, Dhaka",
+    price: "৳1.9 Cr",
+    beds: 4,
+    baths: 2,
+    sqft: "2,300 sqft",
+    image: property3,
+    status: "Ongoing" as const,
+    priceDisplay: "৳1.9 Cr",
   },
 ];
 
@@ -87,7 +102,7 @@ const InteriorProjects = () => {
         <title>Interior Projects - EliteEstates</title>
         <meta 
           name="description" 
-          content="Explore our collection of luxury interior projects in Dhaka's prime locations. Premium interior designs and spaces designed for modern living."
+          content="Discover our exclusive interior design projects in Dhaka. Premium residential spaces designed for comfort and luxury."
         />
       </Helmet>
       
@@ -108,10 +123,10 @@ const InteriorProjects = () => {
                 Interior Projects
               </span>
               <h1 className="text-4xl md:text-6xl font-serif font-bold text-white mb-6">
-                Luxury <span className="text-gradient">Living Spaces</span>
+                Premium <span className="text-gradient">Interior Spaces</span>
               </h1>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Discover our premium interior projects designed for comfort, elegance, and modern lifestyle in Dhaka's most sought-after locations.
+                Experience luxury living in our meticulously designed interior spaces that combine comfort, style, and modern amenities.
               </p>
             </motion.div>
           </div>
@@ -129,10 +144,47 @@ const InteriorProjects = () => {
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
-                  <PropertyCard {...project} />
+                  <Link to={`/interior/${project.slug}`}>
+                    <PropertyCard {...project} />
+                  </Link>
                 </motion.div>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="py-20 bg-navy relative overflow-hidden">
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute inset-0" style={{ 
+              backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")" 
+            }} />
+          </div>
+          
+          <div className="container mx-auto px-6 relative z-10">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center max-w-3xl mx-auto"
+            >
+              <h2 className="text-3xl md:text-5xl font-serif font-bold text-white mb-6">
+                Ready to Find Your Perfect <span className="text-gradient">Interior Space</span>?
+              </h2>
+              <p className="text-lg text-muted-foreground mb-8">
+                Connect with our interior design specialists and discover spaces that reflect your personal style and comfort.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button variant="gold" size="lg" className="px-8 py-3">
+                  <Send className="w-5 h-5 mr-2" />
+                  Get Interior Consultation
+                </Button>
+                <Button variant="outline" size="lg" className="px-8 py-3">
+                  <Calendar className="w-5 h-5 mr-2" />
+                  Schedule Visit
+                </Button>
+              </div>
+            </motion.div>
           </div>
         </section>
 

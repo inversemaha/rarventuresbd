@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { PropertyCard } from "./PropertyCard";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import property1 from "@/assets/property-1.jpg";
 import property2 from "@/assets/property-2.jpg";
 import property3 from "@/assets/property-3.jpg";
@@ -16,6 +17,7 @@ const properties = [
     baths: 3,
     sqft: "3,200 sqft",
     status: "Ready" as const,
+    slug: "sunset-residences",
   },
   {
     image: property2,
@@ -26,6 +28,7 @@ const properties = [
     baths: 2,
     sqft: "2,400 sqft",
     status: "Ongoing" as const,
+    slug: "garden-view",
   },
   {
     image: property3,
@@ -36,6 +39,7 @@ const properties = [
     baths: 4,
     sqft: "5,500 sqft",
     status: "Upcoming" as const,
+    slug: "corporate-tower",
   },
 ];
 
@@ -71,17 +75,21 @@ export const Projects = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <Button variant="outline" className="group">
-              View All Projects
-              <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-            </Button>
+            <Link to="/properties">
+              <Button variant="outline" className="group">
+                View All Projects
+                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </Link>
           </motion.div>
         </div>
 
         {/* Property Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {properties.map((property, index) => (
-            <PropertyCard key={index} {...property} index={index} />
+            <Link key={index} to={`/project/${property.slug}`}>
+              <PropertyCard {...property} index={index} />
+            </Link>
           ))}
         </div>
       </div>

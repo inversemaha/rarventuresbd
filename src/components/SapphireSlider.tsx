@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 import slider1 from "@/assets/slider-1.jpg";
 import slider2 from "@/assets/slider-2.jpg";
@@ -16,6 +17,7 @@ const sapphireProjects = [
     status: "Upcoming",
     location: "Uttara",
     image: slider1,
+    slug: "premium-heights",
   },
   {
     id: 2,
@@ -23,6 +25,7 @@ const sapphireProjects = [
     status: "Upcoming",
     location: "Mohammadpur",
     image: slider2,
+    slug: "cozy-duplex",
   },
   {
     id: 3,
@@ -30,6 +33,7 @@ const sapphireProjects = [
     status: "Upcoming",
     location: "Tejgaon",
     image: slider3,
+    slug: "metro-plaza",
   },
   {
     id: 4,
@@ -37,6 +41,7 @@ const sapphireProjects = [
     status: "Ongoing",
     location: "Lalmatia",
     image: slider4,
+    slug: "business-hub",
   },
   {
     id: 5,
@@ -44,6 +49,7 @@ const sapphireProjects = [
     status: "Ongoing",
     location: "Banani",
     image: slider5,
+    slug: "sunset-residences",
   },
 ];
 
@@ -94,13 +100,15 @@ export const SapphireSlider = () => {
             EliteEstates' Sapphire Series represents our most luxurious and iconic projects in the most popular and sought-after locations.
             Experience elegance and comfort with our bold designs, top-tier construction, and premium finishes.
           </p>
-          <Button
-            variant="outline"
-            className="mt-8 rounded-full border-white/30 text-white hover:bg-white/10 gap-2"
-          >
-            Explore
-            <ArrowRight className="h-4 w-4" />
-          </Button>
+          <Link to="/properties">
+            <Button
+              variant="outline"
+              className="mt-8 rounded-full border-white/30 text-white hover:bg-white/10 gap-2"
+            >
+              Explore
+              <ArrowRight className="h-4 w-4" />
+            </Button>
+          </Link>
         </motion.div>
       </div>
 
@@ -108,13 +116,16 @@ export const SapphireSlider = () => {
       <div className="relative">
         <div className="flex items-end gap-4 px-4 overflow-hidden">
           {getVisibleProjects().map((project, index) => (
-            <motion.div
+            <Link
               key={`${project.id}-${startIndex}-${index}`}
-              initial={{ opacity: 0, x: 100 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="relative flex-shrink-0 w-[280px] md:w-[320px] h-[400px] md:h-[500px] rounded-t-lg overflow-hidden group cursor-pointer"
+              to={`/project/${project.slug}`}
             >
+              <motion.div
+                initial={{ opacity: 0, x: 100 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="relative flex-shrink-0 w-[280px] md:w-[320px] h-[400px] md:h-[500px] rounded-t-lg overflow-hidden group cursor-pointer"
+              >
               <img
                 src={project.image}
                 alt={project.name}
@@ -137,6 +148,7 @@ export const SapphireSlider = () => {
                 </p>
               </div>
             </motion.div>
+            </Link>
           ))}
         </div>
 

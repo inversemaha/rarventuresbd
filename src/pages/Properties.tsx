@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { Search, SlidersHorizontal, X, MapPin, Building2, Home, Check } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
@@ -26,179 +26,21 @@ import {
 } from "@/components/ui/sheet";
 import { Slider } from "@/components/ui/slider";
 
-import slider1 from "@/assets/slider-1.jpg";
-import slider2 from "@/assets/slider-2.jpg";
-import slider3 from "@/assets/slider-3.jpg";
-import slider4 from "@/assets/slider-4.jpg";
-import slider5 from "@/assets/slider-5.jpg";
-import property1 from "@/assets/property-1.jpg";
-import property2 from "@/assets/property-2.jpg";
-import property3 from "@/assets/property-3.jpg";
+// Import centralized data
+import { getAllProjects, filterProjects } from "@/data/projects";
+import { getAllCategories, CategoryType } from "@/data/categories";
 
-// All projects data
-const allProjects = [
-  // Interior
-  {
-    id: 1,
-    slug: "sunset-residences",
-    title: "EliteEstates Sunset Residences",
-    location: "Banani, Dhaka",
-    area: "Banani",
-    price: 25000000,
-    priceDisplay: "৳2.5 Cr",
-    beds: 4,
-    baths: 3,
-    sqft: "2,400 sqft",
-    image: slider2,
-    status: "Ready" as const,
-    type: "Interior",
-  },
-  {
-    id: 2,
-    slug: "garden-view",
-    title: "EliteEstates Garden View",
-    location: "Uttara, Dhaka",
-    area: "Uttara",
-    price: 18000000,
-    priceDisplay: "৳1.8 Cr",
-    beds: 3,
-    baths: 2,
-    sqft: "1,800 sqft",
-    image: slider5,
-    status: "Ongoing" as const,
-    type: "Interior",
-  },
-  {
-    id: 3,
-    slug: "lily-an-tower",
-    title: "EliteEstates Lily-An Tower",
-    location: "Lalmatia, Dhaka",
-    area: "Lalmatia",
-    price: 22000000,
-    priceDisplay: "৳2.2 Cr",
-    beds: 3,
-    baths: 3,
-    sqft: "2,100 sqft",
-    image: slider1,
-    status: "Upcoming" as const,
-    type: "Interior",
-  },
-  {
-    id: 4,
-    slug: "premium-heights",
-    title: "EliteEstates Premium Heights",
-    location: "Gulshan, Dhaka",
-    area: "Gulshan",
-    price: 35000000,
-    priceDisplay: "৳3.5 Cr",
-    beds: 4,
-    baths: 4,
-    sqft: "2,800 sqft",
-    image: property1,
-    status: "Ready" as const,
-    type: "Interior",
-  },
-  {
-    id: 5,
-    slug: "mh-heights",
-    title: "EliteEstates MH Heights",
-    location: "Mohammadpur, Dhaka",
-    area: "Mohammadpur",
-    price: 15000000,
-    priceDisplay: "৳1.5 Cr",
-    beds: 3,
-    baths: 2,
-    sqft: "1,600 sqft",
-    image: property2,
-    status: "Ongoing" as const,
-    type: "Interior",
-  },
-  {
-    id: 6,
-    slug: "aziz-residences",
-    title: "EliteEstates Aziz Residences",
-    location: "Uttara, Dhaka",
-    area: "Uttara",
-    price: 20000000,
-    priceDisplay: "৳2.0 Cr",
-    beds: 3,
-    baths: 3,
-    sqft: "2,000 sqft",
-    image: slider3,
-    status: "Upcoming" as const,
-    type: "Interior",
-  },
-  // Architecture
-  {
-    id: 7,
-    slug: "corporate-tower",
-    title: "EliteEstates Corporate Tower",
-    location: "Motijheel, Dhaka",
-    area: "Motijheel",
-    price: 50000000,
-    priceDisplay: "৳5.0 Cr",
-    beds: 0,
-    baths: 4,
-    sqft: "5,000 sqft",
-    image: slider4,
-    status: "Ready" as const,
-    type: "Architecture",
-  },
-  {
-    id: 8,
-    slug: "metro-plaza",
-    title: "EliteEstates Metro Plaza",
-    location: "Dhanmondi, Dhaka",
-    area: "Dhanmondi",
-    price: 35000000,
-    priceDisplay: "৳3.5 Cr",
-    beds: 0,
-    baths: 2,
-    sqft: "3,200 sqft",
-    image: slider3,
-    status: "Ongoing" as const,
-    type: "Architecture",
-  },
-  {
-    id: 9,
-    slug: "business-hub",
-    title: "EliteEstates Business Hub",
-    location: "Gulshan, Dhaka",
-    area: "Gulshan",
-    price: 80000000,
-    priceDisplay: "৳8.0 Cr",
-    beds: 0,
-    baths: 6,
-    sqft: "8,000 sqft",
-    image: slider1,
-    status: "Upcoming" as const,
-    type: "Architecture",
-  },
-  {
-    id: 10,
-    slug: "trade-center",
-    title: "EliteEstates Trade Center",
-    location: "Banani, Dhaka",
-    area: "Banani",
-    price: 42000000,
-    priceDisplay: "৳4.2 Cr",
-    beds: 0,
-    baths: 3,
-    sqft: "4,500 sqft",
-    image: property3,
-    status: "Ready" as const,
-    type: "Architecture",
-  },
-];
+// Use centralized data
+const allProjects = getAllProjects();
+const categories = getAllCategories();
 
 // Get unique values for filters
 const locations = [...new Set(allProjects.map(p => p.area))].sort();
 const statuses = ["Ready", "Ongoing", "Upcoming"];
-const types = ["Interior", "Architecture"];
 
-// Price range config (in crores)
+// Price range config (in BDT)
 const MIN_PRICE = 0;
-const MAX_PRICE = 100000000; // 10 Cr
+const MAX_PRICE = 200000000; // 20 Cr
 
 const formatPrice = (value: number) => {
   if (value >= 10000000) {
@@ -209,441 +51,288 @@ const formatPrice = (value: number) => {
 
 const Properties = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
   
-  // Filter states
-  const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
-  const [selectedType, setSelectedType] = useState<string>(searchParams.get("type") || "all");
-  const [selectedLocation, setSelectedLocation] = useState<string>(searchParams.get("location") || "all");
-  const [selectedStatus, setSelectedStatus] = useState<string>(searchParams.get("status") || "all");
-  const [priceRange, setPriceRange] = useState<[number, number]>([
-    Number(searchParams.get("minPrice")) || MIN_PRICE,
-    Number(searchParams.get("maxPrice")) || MAX_PRICE,
-  ]);
-
-  // Count active filters
-  const activeFiltersCount = useMemo(() => {
-    let count = 0;
-    if (selectedType !== "all") count++;
-    if (selectedLocation !== "all") count++;
-    if (selectedStatus !== "all") count++;
-    if (priceRange[0] !== MIN_PRICE || priceRange[1] !== MAX_PRICE) count++;
-    return count;
-  }, [selectedType, selectedLocation, selectedStatus, priceRange]);
-
-  // Filter projects
-  const filteredProjects = useMemo(() => {
-    return allProjects.filter(project => {
-      // Search query
-      if (searchQuery) {
-        const query = searchQuery.toLowerCase();
-        const matchesSearch = 
-          project.title.toLowerCase().includes(query) ||
-          project.location.toLowerCase().includes(query) ||
-          project.type.toLowerCase().includes(query);
-        if (!matchesSearch) return false;
-      }
-
-      // Type filter
-      if (selectedType !== "all" && project.type !== selectedType) {
-        return false;
-      }
-
-      // Location filter
-      if (selectedLocation !== "all" && project.area !== selectedLocation) {
-        return false;
-      }
-
-      // Status filter
-      if (selectedStatus !== "all" && project.status !== selectedStatus) {
-        return false;
-      }
-
-      // Price range filter
-      if (project.price < priceRange[0] || project.price > priceRange[1]) {
-        return false;
-      }
-
-      return true;
-    });
-  }, [searchQuery, selectedType, selectedLocation, selectedStatus, priceRange]);
+  // Search and filter states
+  const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
+  const [selectedType, setSelectedType] = useState<string>(searchParams.get('category') || '');
+  const [selectedArea, setSelectedArea] = useState(searchParams.get('area') || '');
+  const [selectedStatus, setSelectedStatus] = useState(searchParams.get('status') || '');
+  const [priceRange, setPriceRange] = useState([MIN_PRICE, MAX_PRICE]);
+  const [showFilters, setShowFilters] = useState(false);
 
   // Update URL params when filters change
-  const updateFilters = (updates: Record<string, string>) => {
-    const newParams = new URLSearchParams(searchParams);
-    Object.entries(updates).forEach(([key, value]) => {
-      if (value && value !== "all") {
-        newParams.set(key, value);
-      } else {
-        newParams.delete(key);
-      }
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (searchQuery) params.set('search', searchQuery);
+    if (selectedType) params.set('category', selectedType);
+    if (selectedArea) params.set('area', selectedArea);  
+    if (selectedStatus) params.set('status', selectedStatus);
+    if (priceRange[0] !== MIN_PRICE) params.set('minPrice', priceRange[0].toString());
+    if (priceRange[1] !== MAX_PRICE) params.set('maxPrice', priceRange[1].toString());
+    
+    setSearchParams(params, { replace: true });
+  }, [searchQuery, selectedType, selectedArea, selectedStatus, priceRange, setSearchParams]);
+
+  // Apply filters using centralized filter function
+  const filteredProjects = useMemo(() => {
+    return filterProjects({
+      category: selectedType as CategoryType,
+      status: selectedStatus,
+      area: selectedArea,
+      minPrice: priceRange[0] > MIN_PRICE ? priceRange[0] : undefined,
+      maxPrice: priceRange[1] < MAX_PRICE ? priceRange[1] : undefined,
+      search: searchQuery
     });
-    setSearchParams(newParams);
-  };
+  }, [allProjects, searchQuery, selectedType, selectedArea, selectedStatus, priceRange]);
+
+  // Check if any filters are active
+  const hasActiveFilters = searchQuery || selectedType || selectedArea || selectedStatus || 
+    priceRange[0] !== MIN_PRICE || priceRange[1] !== MAX_PRICE;
 
   const clearAllFilters = () => {
-    setSearchQuery("");
-    setSelectedType("all");
-    setSelectedLocation("all");
-    setSelectedStatus("all");
+    setSearchQuery('');
+    setSelectedType('');
+    setSelectedArea('');
+    setSelectedStatus('');
     setPriceRange([MIN_PRICE, MAX_PRICE]);
-    setSearchParams(new URLSearchParams());
+    setSearchParams({}, { replace: true });
   };
 
-  const handleSearch = (value: string) => {
-    setSearchQuery(value);
-    updateFilters({ q: value });
+  const updateFilters = (newFilters: any) => {
+    Object.entries(newFilters).forEach(([key, value]) => {
+      if (key === 'search') setSearchQuery(value as string);
+      if (key === 'category') setSelectedType(value as string);
+      if (key === 'area') setSelectedArea(value as string);
+      if (key === 'status') setSelectedStatus(value as string);
+      if (key === 'minPrice' || key === 'maxPrice') {
+        setPriceRange(prev => [
+          key === 'minPrice' ? Number(value) : prev[0],
+          key === 'maxPrice' ? Number(value) : prev[1]
+        ]);
+      }
+    });
   };
 
   return (
     <>
       <Helmet>
         <title>All Properties - EliteEstates</title>
-        <meta 
-          name="description" 
+        <meta
+          name="description"
           content="Browse all interior and architecture properties in Dhaka. Filter by location, price range, status, and type to find your perfect property."
         />
       </Helmet>
-      
-      <main className="min-h-screen bg-background">
+
+      <div className="min-h-screen bg-background">
         <Navbar />
-        
+
         {/* Hero Section */}
-        <section className="pt-32 pb-12 bg-navy">
+        <section className="relative py-16 bg-gradient-to-br from-primary/5 to-secondary/5">
           <div className="container mx-auto px-6">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-10"
+              className="text-center"
             >
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/30 bg-primary/10 text-primary text-sm font-medium mb-6">
-                <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                Find Your Property
-              </span>
-              <h1 className="text-4xl md:text-6xl font-serif font-bold text-white mb-6">
-                Explore Our <span className="text-gradient">Properties</span>
+              <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+                All Properties
               </h1>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
                 Search and filter through our collection of premium interior and architecture properties
               </p>
-            </motion.div>
-
-            {/* Search Bar */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="max-w-4xl mx-auto"
-            >
-              <div className="relative">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                <Input
-                  type="text"
-                  placeholder="Search by name, location, or type..."
-                  value={searchQuery}
-                  onChange={(e) => handleSearch(e.target.value)}
-                  className="w-full pl-12 pr-4 py-6 text-lg bg-card border-border/50 rounded-xl focus:ring-2 focus:ring-primary"
-                />
-                {searchQuery && (
-                  <button
-                    onClick={() => handleSearch("")}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-muted flex items-center justify-center hover:bg-muted-foreground/20 transition-colors"
-                  >
-                    <X className="w-4 h-4 text-muted-foreground" />
-                  </button>
-                )}
+              
+              {/* Search Bar */}
+              <div className="max-w-md mx-auto mb-6">
+                <div className="relative">
+                  <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
+                  <Input
+                    placeholder="Search properties..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-12 pr-12 py-3 text-center bg-background/80 backdrop-blur-sm"
+                  />
+                  {searchQuery && (
+                    <button
+                      onClick={() => setSearchQuery('')}
+                      className="absolute right-4 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+                  )}
+                </div>
+              </div>
+              
+              <div className="text-sm text-muted-foreground">
+                {filteredProjects.length} propert{filteredProjects.length !== 1 ? 'ies' : 'y'} found
               </div>
             </motion.div>
           </div>
         </section>
 
-        {/* Filters Section */}
-        <section className="py-6 bg-card border-b border-border sticky top-0 z-30">
+        {/* Quick Filters */}
+        <section className="py-8 border-b">
           <div className="container mx-auto px-6">
-            <div className="flex flex-wrap items-center justify-between gap-4">
-              {/* Desktop Filters */}
-              <div className="hidden md:flex items-center gap-4 flex-wrap">
-                {/* Type Filter */}
-                <Select value={selectedType} onValueChange={(value) => {
-                  setSelectedType(value);
-                  updateFilters({ type: value });
-                }}>
-                  <SelectTrigger className="w-[160px] bg-background">
-                    <div className="flex items-center gap-2">
-                      {selectedType === "Interior" ? (
-                        <Home className="w-4 h-4 text-primary" />
-                      ) : selectedType === "Architecture" ? (
-                        <Building2 className="w-4 h-4 text-primary" />
-                      ) : null}
-                      <SelectValue placeholder="Property Type" />
-                    </div>
-                  </SelectTrigger>
-                  <SelectContent className="bg-card border-border z-50">
-                    <SelectItem value="all">All Types</SelectItem>
-                    {types.map(type => (
-                      <SelectItem key={type} value={type}>
-                        <div className="flex items-center gap-2">
-                          {type === "Interior" ? <Home className="w-4 h-4" /> : <Building2 className="w-4 h-4" />}
-                          {type}
-                        </div>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-
-                {/* Location Filter */}
-                <Select value={selectedLocation} onValueChange={(value) => {
-                  setSelectedLocation(value);
-                  updateFilters({ location: value });
-                }}>
-                  <SelectTrigger className="w-[160px] bg-background">
-                    <div className="flex items-center gap-2">
-                      <MapPin className="w-4 h-4 text-primary" />
-                      <SelectValue placeholder="Location" />
-                    </div>
-                  </SelectTrigger>
-                  <SelectContent className="bg-card border-border z-50">
-                    <SelectItem value="all">All Locations</SelectItem>
-                    {locations.map(loc => (
-                      <SelectItem key={loc} value={loc}>{loc}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-
-                {/* Status Filter */}
-                <Select value={selectedStatus} onValueChange={(value) => {
-                  setSelectedStatus(value);
-                  updateFilters({ status: value });
-                }}>
-                  <SelectTrigger className="w-[160px] bg-background">
-                    <SelectValue placeholder="Status" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-card border-border z-50">
-                    <SelectItem value="all">All Status</SelectItem>
-                    {statuses.map(status => (
-                      <SelectItem key={status} value={status}>
-                        <div className="flex items-center gap-2">
-                          <span className={`w-2 h-2 rounded-full ${
-                            status === "Ready" ? "bg-emerald-500" :
-                            status === "Ongoing" ? "bg-amber-500" : "bg-blue-500"
-                          }`} />
-                          {status}
-                        </div>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-
-                {/* Price Range */}
-                <div className="flex items-center gap-4 px-4 py-2 bg-background rounded-lg border border-border">
-                  <span className="text-sm text-muted-foreground whitespace-nowrap">Price:</span>
-                  <div className="w-48">
-                    <Slider
-                      min={MIN_PRICE}
-                      max={MAX_PRICE}
-                      step={1000000}
-                      value={priceRange}
-                      onValueChange={(value) => {
-                        setPriceRange(value as [number, number]);
-                        updateFilters({ 
-                          minPrice: value[0].toString(), 
-                          maxPrice: value[1].toString() 
-                        });
-                      }}
-                      className="w-full"
-                    />
-                  </div>
-                  <span className="text-sm text-foreground whitespace-nowrap">
-                    {formatPrice(priceRange[0])} - {formatPrice(priceRange[1])}
-                  </span>
-                </div>
+            <div className="flex flex-wrap gap-4 items-center justify-between">
+              {/* Category Filter */}
+              <div className="flex gap-3 flex-wrap items-center">
+                <span className="text-sm font-medium text-muted-foreground">Filter by:</span>
+                
+                {categories.map((type) => (
+                  <Button
+                    key={type}
+                    variant={selectedType === type ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setSelectedType(selectedType === type ? '' : type)}
+                    className="min-w-[100px]"
+                  >
+                    {selectedType === type ? (
+                      <Check className="w-4 h-4 mr-2" />
+                    ) : type === "Interior" ? (
+                      <Home className="w-4 h-4 mr-2" />
+                    ) : (
+                      <Building2 className="w-4 h-4 mr-2" />
+                    )}
+                    {type}
+                  </Button>
+                ))}
               </div>
 
-              {/* Mobile Filter Button */}
-              <Sheet open={isFilterOpen} onOpenChange={setIsFilterOpen}>
+              {/* Advanced Filters Toggle */}
+              <Sheet open={showFilters} onOpenChange={setShowFilters}>
                 <SheetTrigger asChild>
-                  <Button variant="outline" className="md:hidden relative">
+                  <Button variant="outline" size="sm">
                     <SlidersHorizontal className="w-4 h-4 mr-2" />
-                    Filters
-                    {activeFiltersCount > 0 && (
-                      <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center">
-                        {activeFiltersCount}
-                      </span>
+                    More Filters
+                    {hasActiveFilters && (
+                      <Badge variant="secondary" className="ml-2 px-1 py-0 text-xs">
+                        {[searchQuery, selectedType, selectedArea, selectedStatus].filter(Boolean).length + 
+                         (priceRange[0] !== MIN_PRICE || priceRange[1] !== MAX_PRICE ? 1 : 0)}
+                      </Badge>
                     )}
                   </Button>
                 </SheetTrigger>
-                <SheetContent side="bottom" className="h-[80vh] bg-card border-border">
+                <SheetContent className="w-[400px]">
                   <SheetHeader>
-                    <SheetTitle>Filter Properties</SheetTitle>
+                    <SheetTitle>Advanced Filters</SheetTitle>
                     <SheetDescription>
-                      Narrow down your search with filters
+                      Refine your property search with detailed filters
                     </SheetDescription>
                   </SheetHeader>
-                  <div className="py-6 space-y-6">
-                    {/* Type */}
+                  
+                  <div className="space-y-6 py-6">
+                    {/* Area Filter */}
                     <div>
-                      <label className="text-sm font-medium text-foreground mb-2 block">Property Type</label>
-                      <div className="flex gap-2">
-                        <Button
-                          variant={selectedType === "all" ? "gold" : "outline"}
-                          size="sm"
-                          onClick={() => setSelectedType("all")}
-                        >
-                          All
-                        </Button>
-                        {types.map(type => (
-                          <Button
-                            key={type}
-                            variant={selectedType === type ? "gold" : "outline"}
-                            size="sm"
-                            onClick={() => setSelectedType(type)}
-                          >
-                            {type === "Interior" ? <Home className="w-4 h-4 mr-1" /> : <Building2 className="w-4 h-4 mr-1" />}
-                            {type}
-                          </Button>
-                        ))}
-                      </div>
+                      <label className="text-sm font-medium mb-2 block">Location</label>
+                      <Select value={selectedArea} onValueChange={setSelectedArea}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select area" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="">All Areas</SelectItem>
+                          {locations.map((location) => (
+                            <SelectItem key={location} value={location}>
+                              <div className="flex items-center">
+                                <MapPin className="w-4 h-4 mr-2" />
+                                {location}
+                              </div>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </div>
 
-                    {/* Location */}
+                    {/* Status Filter */}
                     <div>
-                      <label className="text-sm font-medium text-foreground mb-2 block">Location</label>
-                      <div className="flex flex-wrap gap-2">
-                        <Button
-                          variant={selectedLocation === "all" ? "gold" : "outline"}
-                          size="sm"
-                          onClick={() => setSelectedLocation("all")}
-                        >
-                          All
-                        </Button>
-                        {locations.map(loc => (
-                          <Button
-                            key={loc}
-                            variant={selectedLocation === loc ? "gold" : "outline"}
-                            size="sm"
-                            onClick={() => setSelectedLocation(loc)}
-                          >
-                            {loc}
-                          </Button>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Status */}
-                    <div>
-                      <label className="text-sm font-medium text-foreground mb-2 block">Status</label>
-                      <div className="flex gap-2">
-                        <Button
-                          variant={selectedStatus === "all" ? "gold" : "outline"}
-                          size="sm"
-                          onClick={() => setSelectedStatus("all")}
-                        >
-                          All
-                        </Button>
-                        {statuses.map(status => (
-                          <Button
-                            key={status}
-                            variant={selectedStatus === status ? "gold" : "outline"}
-                            size="sm"
-                            onClick={() => setSelectedStatus(status)}
-                          >
-                            <span className={`w-2 h-2 rounded-full mr-1 ${
-                              status === "Ready" ? "bg-emerald-500" :
-                              status === "Ongoing" ? "bg-amber-500" : "bg-blue-500"
-                            }`} />
-                            {status}
-                          </Button>
-                        ))}
-                      </div>
+                      <label className="text-sm font-medium mb-2 block">Status</label>
+                      <Select value={selectedStatus} onValueChange={setSelectedStatus}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="">All Status</SelectItem>
+                          {statuses.map((status) => (
+                            <SelectItem key={status} value={status}>{status}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </div>
 
                     {/* Price Range */}
                     <div>
-                      <label className="text-sm font-medium text-foreground mb-4 block">
+                      <label className="text-sm font-medium mb-4 block">
                         Price Range: {formatPrice(priceRange[0])} - {formatPrice(priceRange[1])}
                       </label>
                       <Slider
-                        min={MIN_PRICE}
-                        max={MAX_PRICE}
-                        step={1000000}
                         value={priceRange}
-                        onValueChange={(value) => setPriceRange(value as [number, number])}
+                        onValueChange={setPriceRange}
+                        max={MAX_PRICE}
+                        min={MIN_PRICE}
+                        step={1000000}
                         className="w-full"
                       />
+                      <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                        <span>{formatPrice(MIN_PRICE)}</span>
+                        <span>{formatPrice(MAX_PRICE)}</span>
+                      </div>
                     </div>
 
-                    {/* Apply Button */}
-                    <div className="flex gap-4 pt-4">
-                      <Button variant="outline" className="flex-1" onClick={clearAllFilters}>
-                        Clear All
+                    {/* Clear Filters */}
+                    {hasActiveFilters && (
+                      <Button 
+                        variant="outline" 
+                        onClick={clearAllFilters}
+                        className="w-full"
+                      >
+                        Clear All Filters
                       </Button>
-                      <Button variant="gold" className="flex-1" onClick={() => setIsFilterOpen(false)}>
-                        <Check className="w-4 h-4 mr-2" />
-                        Apply Filters
-                      </Button>
-                    </div>
+                    )}
                   </div>
                 </SheetContent>
               </Sheet>
-
-              {/* Results Count & Clear */}
-              <div className="flex items-center gap-4">
-                <span className="text-muted-foreground text-sm">
-                  {filteredProjects.length} {filteredProjects.length === 1 ? "property" : "properties"} found
-                </span>
-                {activeFiltersCount > 0 && (
-                  <Button variant="ghost" size="sm" onClick={clearAllFilters} className="text-muted-foreground hover:text-foreground">
-                    <X className="w-4 h-4 mr-1" />
-                    Clear filters
-                  </Button>
-                )}
-              </div>
             </div>
 
-            {/* Active Filter Tags */}
-            {activeFiltersCount > 0 && (
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="flex flex-wrap gap-2 mt-4"
+            {/* Active Filters Display */}
+            {hasActiveFilters && (
+              <motion.div 
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                className="flex gap-2 mt-4 flex-wrap"
               >
-                {selectedType !== "all" && (
-                  <Badge variant="secondary" className="gap-1 pl-3">
-                    {selectedType}
-                    <button onClick={() => {
-                      setSelectedType("all");
-                      updateFilters({ type: "all" });
-                    }} className="ml-1 hover:text-destructive">
+                {searchQuery && (
+                  <Badge variant="secondary">
+                    Search: {searchQuery}
+                    <button onClick={() => updateFilters({ search: '' })} className="ml-1 hover:text-destructive">
                       <X className="w-3 h-3" />
                     </button>
                   </Badge>
                 )}
-                {selectedLocation !== "all" && (
-                  <Badge variant="secondary" className="gap-1 pl-3">
-                    {selectedLocation}
-                    <button onClick={() => {
-                      setSelectedLocation("all");
-                      updateFilters({ location: "all" });
-                    }} className="ml-1 hover:text-destructive">
+                {selectedType && (
+                  <Badge variant="secondary">
+                    Category: {selectedType}
+                    <button onClick={() => updateFilters({ category: '' })} className="ml-1 hover:text-destructive">
                       <X className="w-3 h-3" />
                     </button>
                   </Badge>
                 )}
-                {selectedStatus !== "all" && (
-                  <Badge variant="secondary" className="gap-1 pl-3">
-                    {selectedStatus}
-                    <button onClick={() => {
-                      setSelectedStatus("all");
-                      updateFilters({ status: "all" });
-                    }} className="ml-1 hover:text-destructive">
+                {selectedArea && (
+                  <Badge variant="secondary">
+                    Area: {selectedArea}
+                    <button onClick={() => updateFilters({ area: '' })} className="ml-1 hover:text-destructive">
+                      <X className="w-3 h-3" />
+                    </button>
+                  </Badge>
+                )}
+                {selectedStatus && (
+                  <Badge variant="secondary">
+                    Status: {selectedStatus}
+                    <button onClick={() => updateFilters({ status: '' })} className="ml-1 hover:text-destructive">
                       <X className="w-3 h-3" />
                     </button>
                   </Badge>
                 )}
                 {(priceRange[0] !== MIN_PRICE || priceRange[1] !== MAX_PRICE) && (
-                  <Badge variant="secondary" className="gap-1 pl-3">
-                    {formatPrice(priceRange[0])} - {formatPrice(priceRange[1])}
+                  <Badge variant="secondary">
+                    Price: {formatPrice(priceRange[0])} - {formatPrice(priceRange[1])}
                     <button onClick={() => {
                       setPriceRange([MIN_PRICE, MAX_PRICE]);
                       updateFilters({ minPrice: "", maxPrice: "" });
@@ -681,7 +370,7 @@ const Properties = () => {
                           image={project.image}
                           title={project.title}
                           location={project.location}
-                          price={project.priceDisplay}
+                          price={project.priceDisplay || 'Price on Request'}
                           beds={project.beds}
                           baths={project.baths}
                           sqft={project.sqft}
@@ -702,15 +391,15 @@ const Properties = () => {
                   <div className="w-20 h-20 rounded-full bg-muted flex items-center justify-center mx-auto mb-6">
                     <Search className="w-10 h-10 text-muted-foreground" />
                   </div>
-                  <h3 className="text-2xl font-serif font-semibold text-foreground mb-2">
-                    No properties found
-                  </h3>
+                  <h3 className="text-xl font-semibold mb-2">No Properties Found</h3>
                   <p className="text-muted-foreground mb-6">
-                    Try adjusting your filters or search query
+                    No properties match your current search criteria. Try adjusting your filters.
                   </p>
-                  <Button variant="gold" onClick={clearAllFilters}>
-                    Clear All Filters
-                  </Button>
+                  {hasActiveFilters && (
+                    <Button onClick={clearAllFilters} variant="outline">
+                      Clear All Filters
+                    </Button>
+                  )}
                 </motion.div>
               )}
             </AnimatePresence>
@@ -718,7 +407,7 @@ const Properties = () => {
         </section>
 
         <Footer />
-      </main>
+      </div>
     </>
   );
 };

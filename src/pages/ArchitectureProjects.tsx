@@ -1,17 +1,21 @@
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PropertyCard } from "@/components/PropertyCard";
 
 import slider1 from "@/assets/slider-1.jpg";
+import slider2 from "@/assets/slider-2.jpg";
 import slider3 from "@/assets/slider-3.jpg";
 import slider4 from "@/assets/slider-4.jpg";
+import slider5 from "@/assets/slider-5.jpg";
 import property3 from "@/assets/property-3.jpg";
 
 const architectureProjects = [
   {
     id: 1,
+    slug: "corporate-tower",
     title: "EliteEstates Corporate Tower",
     location: "Motijheel, Dhaka",
     price: "৳5.0 Cr",
@@ -23,6 +27,7 @@ const architectureProjects = [
   },
   {
     id: 2,
+    slug: "metro-plaza",
     title: "EliteEstates Metro Plaza",
     location: "Dhanmondi, Dhaka",
     price: "৳3.5 Cr",
@@ -34,6 +39,7 @@ const architectureProjects = [
   },
   {
     id: 3,
+    slug: "business-hub",
     title: "EliteEstates Business Hub",
     location: "Gulshan, Dhaka",
     price: "৳8.0 Cr",
@@ -45,6 +51,7 @@ const architectureProjects = [
   },
   {
     id: 4,
+    slug: "trade-center",
     title: "EliteEstates Trade Center",
     location: "Banani, Dhaka",
     price: "৳4.2 Cr",
@@ -52,6 +59,30 @@ const architectureProjects = [
     baths: 3,
     sqft: "4,500 sqft",
     image: property3,
+    status: "Ready" as const,
+  },
+  {
+    id: 5,
+    slug: "innovation-center",
+    title: "EliteEstates Innovation Center",
+    location: "Tejgaon, Dhaka",
+    price: "৳6.5 Cr",
+    beds: 0,
+    baths: 8,
+    sqft: "12,000 sqft",
+    image: slider2,
+    status: "Upcoming" as const,
+  },
+  {
+    id: 6,
+    slug: "commercial-plaza",
+    title: "EliteEstates Commercial Plaza",
+    location: "New Market, Dhaka",
+    price: "৳3.8 Cr",
+    beds: 0,
+    baths: 5,
+    sqft: "7,500 sqft",
+    image: slider5,
     status: "Ready" as const,
   },
 ];
@@ -105,7 +136,9 @@ const ArchitectureProjects = () => {
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
-                  <PropertyCard {...project} />
+                  <Link to={`/architecture/${project.slug}`}>
+                    <PropertyCard {...project} />
+                  </Link>
                 </motion.div>
               ))}
             </div>
