@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -17,6 +18,7 @@ import Properties from "./pages/Properties";
 import BookVisit from "./pages/BookVisit";
 
 const queryClient = new QueryClient();
+
 
 const App = () => (
   <HelmetProvider>
@@ -40,6 +42,7 @@ const App = () => (
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
+          <Analytics />
         </TooltipProvider>
       </CategoryProvider>
     </QueryClientProvider>
