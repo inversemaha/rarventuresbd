@@ -82,9 +82,9 @@ export const FeaturedSlider = () => {
 
   return (
     <section className="relative bg-navy py-0 overflow-hidden">
-      <div className="flex flex-col lg:flex-row min-h-[80vh]">
+      <div className="flex flex-col lg:flex-row min-h-[80vh] relative">
         {/* Left Content */}
-        <div className="lg:w-1/3 flex flex-col justify-center px-8 lg:px-16 py-12 lg:py-0">
+        <div className="lg:w-1/3 flex flex-col justify-center px-8 lg:px-16 py-12 lg:py-0 relative">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentIndex}
@@ -103,28 +103,20 @@ export const FeaturedSlider = () => {
             </motion.div>
           </AnimatePresence>
 
-          <div className="flex gap-4">
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={prevSlide}
-              className="rounded-full border-white/30 text-white hover:bg-white/10"
-            >
-              <ArrowLeft className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={nextSlide}
-              className="rounded-full border-white/30 text-white hover:bg-white/10"
-            >
-              <ArrowRight className="h-4 w-4" />
-            </Button>
-          </div>
+          {/* Left Previous Button - vertically centered */}
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={prevSlide}
+            className="rounded-full border-white/30 text-white hover:bg-white/10 absolute left-0 top-1/2 -translate-y-1/2 z-20"
+            aria-label="Previous Slide"
+          >
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
         </div>
 
         {/* Right Slider */}
-        <div className="lg:w-2/3 flex items-center gap-4 px-4 lg:px-0 py-8 lg:py-12 overflow-hidden">
+        <div className="lg:w-2/3 flex items-center gap-4 px-4 lg:px-0 py-8 lg:py-12 overflow-hidden relative">
           {visibleProjects.map((project, index) => (
             <motion.div
               key={`${project.id}-${currentIndex}-${index}`}
@@ -156,6 +148,16 @@ export const FeaturedSlider = () => {
               </div>
             </motion.div>
           ))}
+          {/* Right Next Button */}
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={nextSlide}
+            className="rounded-full border-white/30 text-white hover:bg-white/10 absolute right-0 top-1/2 -translate-y-1/2 z-20"
+            aria-label="Next Slide"
+          >
+            <ArrowRight className="h-4 w-4" />
+          </Button>
         </div>
       </div>
     </section>
