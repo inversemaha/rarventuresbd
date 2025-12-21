@@ -60,14 +60,25 @@ export const Navbar = () => {
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3">
+          <button
+            type="button"
+            className="flex items-center gap-3 focus:outline-none"
+            onClick={() => {
+              if (location.pathname !== "/") {
+                navigate("/");
+                setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 400);
+              } else {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }
+            }}
+          >
             <div className="w-10 h-10 bg-gradient-gold rounded-lg flex items-center justify-center">
               <span className="text-primary-foreground font-serif font-bold text-xl">E</span>
             </div>
             <span className="text-2xl font-serif font-semibold text-foreground">
-              rar<span className="text-primary">venturesbd</span>
+              RAR<span className="text-primary">VenturesBD</span>
             </span>
-          </Link>
+          </button>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-8">

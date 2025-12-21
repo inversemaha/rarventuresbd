@@ -42,10 +42,10 @@ export const Footer = () => {
           <div className="lg:col-span-2">
             <a href="#" className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 bg-gradient-gold rounded-lg flex items-center justify-center">
-                <span className="text-primary-foreground font-serif font-bold text-xl">E</span>
+                <span className="text-primary-foreground font-serif font-bold text-xl">RAR</span>
               </div>
               <span className="text-2xl font-serif font-semibold text-foreground">
-                Elite<span className="text-primary">Estates</span>
+                RAR<span className="text-primary">VenturesBD</span>
               </span>
             </a>
             <p className="text-muted-foreground mb-6 max-w-sm">
@@ -111,7 +111,7 @@ export const Footer = () => {
         {/* Bottom Bar */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 border-t border-border/50">
           <p className="text-muted-foreground text-sm">
-            © 2025 EliteEstates. All rights reserved.
+            © 2025 RARVenturesBD. All rights reserved.
           </p>
           
           <motion.button
