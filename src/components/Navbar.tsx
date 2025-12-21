@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Menu, X, ChevronDown, Phone, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
+
 
 // Smooth scroll function
 const scrollToSection = (sectionId: string) => {
@@ -32,6 +34,21 @@ const navItems = [
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Helper to handle scroll navigation
+  const handleScrollNav = (sectionId: string) => {
+    if (location.pathname !== "/") {
+      navigate("/", { replace: false });
+      // Wait for navigation and then scroll
+      setTimeout(() => {
+        scrollToSection(sectionId);
+      }, 400); // Delay to allow home to mount
+    } else {
+      scrollToSection(sectionId);
+    }
+  };
 
   return (
     <motion.nav 
@@ -48,7 +65,7 @@ export const Navbar = () => {
               <span className="text-primary-foreground font-serif font-bold text-xl">E</span>
             </div>
             <span className="text-2xl font-serif font-semibold text-foreground">
-              Elite<span className="text-primary">Estates</span>
+              rar<span className="text-primary">venturesbd</span>
             </span>
           </Link>
 
@@ -63,7 +80,7 @@ export const Navbar = () => {
               >
                 {item.type === 'scroll' ? (
                   <button
-                    onClick={() => scrollToSection(item.href)}
+                    onClick={() => handleScrollNav(item.href)}
                     className="flex items-center gap-1 text-foreground/80 hover:text-primary transition-colors duration-300 text-sm font-medium tracking-wide"
                   >
                     {item.label}
@@ -106,10 +123,6 @@ export const Navbar = () => {
 
           {/* CTA Button */}
           <div className="hidden lg:flex items-center gap-4">
-            <Link to="/properties" className="flex items-center gap-2 text-muted-foreground text-sm hover:text-primary transition-colors">
-              <Search className="w-4 h-4" />
-              <span>Search</span>
-            </Link>
             <a href="tel:+8801234567890" className="flex items-center gap-2 text-muted-foreground text-sm">
               <Phone className="w-4 h-4" />
               <span>+880 1234 567 890</span>
@@ -147,7 +160,7 @@ export const Navbar = () => {
                   <button
                     key={item.label}
                     onClick={() => {
-                      scrollToSection(item.href);
+                      handleScrollNav(item.href);
                       setIsOpen(false);
                     }}
                     className="block text-foreground/80 hover:text-primary transition-colors py-2 text-lg w-full text-left"
