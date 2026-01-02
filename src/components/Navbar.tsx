@@ -6,12 +6,9 @@ import { Menu, X, ChevronDown, Phone, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 
-// Smooth scroll function
-const scrollToSection = (sectionId: string) => {
-  const element = document.getElementById(sectionId);
-  if (element) {
-    element.scrollIntoView({ behavior: 'smooth' });
-  }
+// Smooth scroll function (for home page sections if needed)
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
 const navItems = [
@@ -27,8 +24,8 @@ const navItems = [
       { label: "Landowner", href: "/landowner" },
     ]
   },
-  { label: "About", href: "about", type: "scroll" },
-  { label: "Contact", href: "contact", type: "scroll" },
+  { label: "About", href: "/about", type: "link" },
+  { label: "Contact", href: "/contact", type: "link" },
 ];
 
 export const Navbar = () => {
@@ -36,19 +33,6 @@ export const Navbar = () => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
-
-  // Helper to handle scroll navigation
-  const handleScrollNav = (sectionId: string) => {
-    if (location.pathname !== "/") {
-      navigate("/", { replace: false });
-      // Wait for navigation and then scroll
-      setTimeout(() => {
-        scrollToSection(sectionId);
-      }, 400); // Delay to allow home to mount
-    } else {
-      scrollToSection(sectionId);
-    }
-  };
 
   return (
     <motion.nav 
@@ -60,17 +44,9 @@ export const Navbar = () => {
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <button
-            type="button"
+          <Link
+            to="/"
             className="flex items-center gap-3 focus:outline-none"
-            onClick={() => {
-              if (location.pathname !== "/") {
-                navigate("/");
-                setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 400);
-              } else {
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }
-            }}
           >
             <div className="w-10 h-10 bg-gradient-gold rounded-lg flex items-center justify-center">
               <span className="text-primary-foreground font-serif font-bold text-xl">E</span>
@@ -78,7 +54,7 @@ export const Navbar = () => {
             <span className="text-2xl font-serif font-semibold text-foreground">
               RAR<span className="text-primary">VenturesBD</span>
             </span>
-          </button>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-8">
@@ -89,22 +65,13 @@ export const Navbar = () => {
                 onMouseEnter={() => item.children && setActiveDropdown(item.label)}
                 onMouseLeave={() => setActiveDropdown(null)}
               >
-                {item.type === 'scroll' ? (
-                  <button
-                    onClick={() => handleScrollNav(item.href)}
-                    className="flex items-center gap-1 text-foreground/80 hover:text-primary transition-colors duration-300 text-sm font-medium tracking-wide"
-                  >
-                    {item.label}
-                  </button>
-                ) : (
-                  <Link 
-                    to={item.href}
-                    className="flex items-center gap-1 text-foreground/80 hover:text-primary transition-colors duration-300 text-sm font-medium tracking-wide"
-                  >
-                    {item.label}
-                    {item.children && <ChevronDown className="w-4 h-4" />}
-                  </Link>
-                )}
+                <Link 
+                  to={item.href}
+                  className="flex items-center gap-1 text-foreground/80 hover:text-primary transition-colors duration-300 text-sm font-medium tracking-wide"
+                >
+                  {item.label}
+                  {item.children && <ChevronDown className="w-4 h-4" />}
+                </Link>
                 
                 {/* Dropdown */}
                 <AnimatePresence>
@@ -167,27 +134,14 @@ export const Navbar = () => {
           >
             <div className="container mx-auto px-6 py-6 space-y-4">
               {navItems.map((item) => (
-                item.type === 'scroll' ? (
-                  <button
-                    key={item.label}
-                    onClick={() => {
-                      handleScrollNav(item.href);
-                      setIsOpen(false);
-                    }}
-                    className="block text-foreground/80 hover:text-primary transition-colors py-2 text-lg w-full text-left"
-                  >
-                    {item.label}
-                  </button>
-                ) : (
-                  <Link
-                    key={item.label}
-                    to={item.href}
-                    className="block text-foreground/80 hover:text-primary transition-colors py-2 text-lg"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {item.label}
-                  </Link>
-                )
+                <Link
+                  key={item.label}
+                  to={item.href}
+                  className="block text-foreground/80 hover:text-primary transition-colors py-2 text-lg"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {item.label}
+                </Link>
               ))}
               <Link to="/book-visit" onClick={() => setIsOpen(false)}>
                 <Button variant="gold" className="w-full mt-4">

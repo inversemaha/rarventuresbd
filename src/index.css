@@ -8,6 +8,22 @@
   background-color: hsl(230 40% 20%);
 }
 
+/* Smooth page transitions */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Prevent layout shift during route transitions */
+body {
+  overflow-x: hidden;
+}
+
+/* Optimize animations */
+* {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
 @layer base {
   :root {
     /* Luxury Real Estate Theme - Dark Elegant */
