@@ -11,11 +11,24 @@
 /* Smooth page transitions */
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 /* Prevent layout shift during route transitions */
 body {
   overflow-x: hidden;
+  scroll-behavior: auto; /* Override for instant scroll on page load */
+}
+
+/* Ensure page starts from top on load */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  z-index: -1;
 }
 
 /* Optimize animations */

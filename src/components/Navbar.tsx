@@ -103,7 +103,7 @@ export const Navbar = () => {
           <div className="hidden lg:flex items-center gap-4">
             <a href="tel:+8801234567890" className="flex items-center gap-2 text-muted-foreground text-sm">
               <Phone className="w-4 h-4" />
-              <span>+880 1234 567 890</span>
+              <span>+880 1308 997755</span>
             </a>
             <Link to="/book-visit">
               <Button variant="gold">

@@ -11,17 +11,17 @@ const contactInfo = [
   {
     icon: MapPin,
     title: "Visit Us",
-    details: ["House 42, Road 11", "Banani, Dhaka 1213"],
+    details: ["Plot-15/1, Road-3, Block-D, Sector-2", "Aftabnagar, Dhaka-1212"],
   },
   {
     icon: Phone,
     title: "Call Us",
-    details: ["+880 1234 567 890", "+880 9876 543 210"],
+    details: ["+880 1308 997755"],
   },
   {
     icon: Mail,
     title: "Email Us",
-    details: ["info@eliteestates.bd", "sales@eliteestates.bd"],
+    details: ["hello@rarventuresbd.com"],
   },
   {
     icon: Clock,

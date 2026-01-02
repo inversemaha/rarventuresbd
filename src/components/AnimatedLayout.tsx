@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { motion } from "framer-motion";
 
 interface AnimatedLayoutProps {
@@ -54,6 +54,11 @@ const slideVariants = {
 
 export const AnimatedLayout = ({ children, variant = "fade" }: AnimatedLayoutProps) => {
   const variants = variant === "slide" ? slideVariants : fadeVariants;
+
+  // Ensure we're at the top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <motion.div
